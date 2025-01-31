@@ -50,7 +50,7 @@ elseif(CMAKE_BUILD_TYPE MATCHES Release)
     target_link_options(teste PRIVATE -O3   -DNDEBUG )
 endif()
 
-target_link_libraries(teste raylib ODE)
+target_link_libraries(teste raylib   BulletDynamics BulletCollision LinearMath)
 
 if (WIN32)
     target_link_libraries(teste Winmm.lib)

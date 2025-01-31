@@ -50,7 +50,7 @@ elseif(CMAKE_BUILD_TYPE MATCHES Release)
     target_link_options(main PRIVATE -O3   -DNDEBUG )
 endif()
 
-target_link_libraries(main raylib ODE)
+target_link_libraries(main raylib ODE  )
 
 if (WIN32)
     target_link_libraries(main Winmm.lib)

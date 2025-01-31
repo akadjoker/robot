@@ -5,6 +5,7 @@ project(robot)
 
 add_subdirectory(raylib)
 add_subdirectory(ode)
+add_subdirectory(bullet)
 add_subdirectory(main)
 add_subdirectory(teste)
 add_subdirectory(car)
