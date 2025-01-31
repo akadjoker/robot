@@ -8,5 +8,6 @@ add_subdirectory(ode)
 add_subdirectory(main)
 add_subdirectory(teste)
 add_subdirectory(car)
+add_subdirectory(sme)
 
 

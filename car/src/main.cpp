@@ -297,7 +297,7 @@ static void nearCallback(void *data, dGeomID o1, dGeomID o2)
     // exit without doing anything if the two bodies are connected by a joint
     dBodyID b1 = dGeomGetBody(o1);
     dBodyID b2 = dGeomGetBody(o2);
-    // if (b1==b2) return;
+    if (b1==b2) return;
     if (b1 && b2 && dAreConnectedExcluding(b1, b2, dJointTypeContact))
         return;
 
@@ -468,21 +468,21 @@ int main(void)
 
     dBodySetPosition(car.bodies[0], 0, 2, 0);
 
-    dGeomID front = dCreateBox(space, 1.5, 0.5, 0.9);
-    dGeomSetBody(front, car.bodies[0]);
-    dGeomSetOffsetPosition(front, carScale.x / 2 - 1.55, carScale.y / 2 + 0.25, 0);
+    // dGeomID front = dCreateBox(space, 1.5, 0.5, 0.9);
+    // dGeomSetBody(front, car.bodies[0]);
+    // dGeomSetOffsetPosition(front, carScale.x / 2 - 1.55, carScale.y / 2 + 0.25, 0);
 
-    car.bodies[5] = dBodyCreate(world);
-    dBodySetMass(car.bodies[5], &m);
-    dBodySetAutoDisableFlag(car.bodies[5], 0);
+    // car.bodies[5] = dBodyCreate(world);
+    // dBodySetMass(car.bodies[5], &m);
+    // dBodySetAutoDisableFlag(car.bodies[5], 0);
 
-    dBodySetPosition(car.bodies[5], 0, 1.5, 0);
-    car.geoms[5] = dCreateSphere(space, 0.2);
-    dGeomSetBody(car.geoms[5], car.bodies[5]);
+    // dBodySetPosition(car.bodies[5], 0, 1.5, 0);
+    // car.geoms[5] = dCreateSphere(space, 0.2);
+    // dGeomSetBody(car.geoms[5], car.bodies[5]);
 
-    car.joints[5] = dJointCreateFixed(world, 0);
-    dJointAttach(car.joints[5], car.bodies[0], car.bodies[5]);
-    dJointSetFixed(car.joints[5]);
+    // car.joints[5] = dJointCreateFixed(world, 0);
+    // dJointAttach(car.joints[5], car.bodies[0], car.bodies[5]);
+    // dJointSetFixed(car.joints[5]);
 
     // wheels
     dMassSetCylinder(&m, 1, 3, wheelRadius, wheelWidth);
@@ -521,33 +521,35 @@ int main(void)
         // dJointSetHinge2Axis1(joints[i], 0, 1, 0);
         // dJointSetHinge2Axis2(joints[i], 0, 0, ((i % 2) == 0) ? -1 : 1);
 
-        dJointSetHinge2Param(car.joints[i], dParamLoStop, 0);
-        dJointSetHinge2Param(car.joints[i], dParamHiStop, 0);
+        dJointSetHinge2Param(car.joints[i], dParamSuspensionERP, 0.7);
+        dJointSetHinge2Param(car.joints[i], dParamSuspensionCFM, 0.0025);
         dJointSetHinge2Param(car.joints[i], dParamLoStop, 0);
         dJointSetHinge2Param(car.joints[i], dParamHiStop, 0);
         dJointSetHinge2Param(car.joints[i], dParamFMax, 1500);
-
         dJointSetHinge2Param(car.joints[i], dParamVel2, dInfinity);
         dJointSetHinge2Param(car.joints[i], dParamFMax2, 1500);
-
-        dJointSetHinge2Param(car.joints[i], dParamSuspensionERP, 0.7);
-        dJointSetHinge2Param(car.joints[i], dParamSuspensionCFM, 0.0025);
 
         // steering
         if (i < 2)
         {
-            dJointSetHinge2Param(car.joints[i], dParamFMax, 500);
-            dJointSetHinge2Param(car.joints[i], dParamLoStop, -0.5);
-            dJointSetHinge2Param(car.joints[i], dParamHiStop, 0.5);
-            dJointSetHinge2Param(car.joints[i], dParamLoStop, -0.5);
-            dJointSetHinge2Param(car.joints[i], dParamHiStop, 0.5);
-            dJointSetHinge2Param(car.joints[i], dParamFudgeFactor, 0.1);
+            // dJointSetHinge2Param(car.joints[i], dParamFMax, 500);
+            // dJointSetHinge2Param(car.joints[i], dParamLoStop, -0.5);
+            // dJointSetHinge2Param(car.joints[i], dParamHiStop, 0.5);
+            // dJointSetHinge2Param(car.joints[i], dParamFudgeFactor, 0.1);
         }
     }
     // disable motor on front wheels
-    dJointSetHinge2Param(car.joints[0], dParamFMax2, 0);
-    dJointSetHinge2Param(car.joints[1], dParamFMax2, 0);
+        dJointSetHinge2Param(car.joints[0], dParamFMax2, 0);
+        dJointSetHinge2Param(car.joints[1], dParamFMax2, 0);
 
+        dJointSetHinge2Param(car.joints[0], dParamFMax, 500);
+        dJointSetHinge2Param(car.joints[0], dParamLoStop, -0.5);
+        dJointSetHinge2Param(car.joints[0], dParamHiStop, 0.5);
+        dJointSetHinge2Param(car.joints[0], dParamFudgeFactor, 0.1);
+        dJointSetHinge2Param(car.joints[1], dParamFMax, 500);
+        dJointSetHinge2Param(car.joints[1], dParamLoStop, -0.5);
+        dJointSetHinge2Param(car.joints[1], dParamHiStop, 0.5);
+        dJointSetHinge2Param(car.joints[1], dParamFudgeFactor, 0.1);
     Camera camera = {0};
     camera.position = (Vector3){5.0f, 5.0f, 5.0f};
     camera.target = (Vector3){0.0f, 0.0f, 0.0f};
