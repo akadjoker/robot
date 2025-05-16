@@ -105,7 +105,6 @@ Sempre que alterares o `main.py`, o motor deteta automaticamente e recarrega o s
 
 ## 📸 Screenshot
 
-> (Adiciona aqui uma imagem da simulação em execução)
 
 ---
 
